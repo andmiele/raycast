@@ -2,9 +2,9 @@
 #INSTRUCTIONS
 You need NASM to compile it, dd to create a floppy image and either QEMU or VirtualBox to run it:
 
-1. nasm -bin raycast.m -o raycast
-2. dd conv=notrunc bs=4096 count=1 if=raycast of=raycast.img
-3. qemu-system-i386 -fda raycast.img
+1. ./nasm -bin raycast.m -o raycast
+2. ./dd conv=notrunc bs=4096 count=1 if=raycast of=raycast.img
+3. ./qemu-system-i386 -fda raycast.img
 
 #DESCRIPTION
 VGA 320x200 (140h x 0c8h) mode, pixels stored in memory starting at address VGA_ADDR = A000h:0000
@@ -23,11 +23,11 @@ We assume that the camera is positioned at about the center of the screen x, y =
 
 We assume that the camera (center of the screen) is positioned at depth z = 0 and that depth z increases as we move downwards into the screen.
 
-For each pixel we compute vertical (ydist) and horizontal (xdist) distance from the camera (x,y = 160, 100). 
+For each pixel we compute vertical (ydist) and horizontal (xdist) distance from the camera (x,y = 160, 100).
 
-The distance to a vertical (horizontal) wall is proportional to the product between depth and y-distance (x-distance). 
+The distance to a vertical (horizontal) wall is proportional to the product between depth and y-distance (x-distance).
 
-For each pixel we increase z (starting from 0) until `z*xdist` or `z*ydist` is larger than a certain threshold t or z reaches a maximum value (255). If z reaches 255 it means that we can see the sky through that pixel (light blue color).
+For each pixel we increase z (starting from 0) until `z*xdist` or `z*ydist` is larger than a certain threshold t or z reaches a maximum value (255). If z reaches 255 it means that we can see the sky through that pixel (light blue color).
 
 Otherwise we hit a wall and the pixel is colored with a grayscale tone proportional to z.
 
