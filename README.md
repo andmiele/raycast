@@ -1,12 +1,12 @@
 ##A rudimentary bootable tunnel effect 3d raycaster in 16-bit x86 assembly (VGA 320x200).
-#INSTRUCTIONS
+#Instructions
 You need NASM to compile it, dd to create a floppy image and either QEMU or VirtualBox to run it:
 
 1. ./nasm -bin raycast.m -o raycast
 2. ./dd conv=notrunc bs=4096 count=1 if=raycast of=raycast.img
 3. ./qemu-system-i386 -fda raycast.img
 
-#DESCRIPTION
+#Description
 VGA 320x200 (140h x 0c8h) mode, pixels stored in memory starting at address VGA_ADDR = A000h:0000
 
 x,y = 0,0 top-left pixel, VGA_ADDR 
