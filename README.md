@@ -25,9 +25,9 @@ We assume that the camera (center of the screen) is positioned at depth z = 0 an
 
 For each pixel we compute vertical (ydist) and horizontal (xdist) distance from the camera (x,y = 160, 100).
 
-The distance to a vertical (horizontal) wall is proportional to the product between depth and y-distance (x-distance).
+The distance to a vertical (horizontal) wall is proportional to the product between depth z and ydist (xdist).
 
-For each pixel we increase z (starting from 0) until `z*xdist` or `z*ydist` is larger than a certain threshold t or z reaches a maximum value (255). If z reaches 255 it means that we can see the sky through that pixel (light blue color).
+For each pixel we increase z (starting from 1) until `z*xdist` or `z*ydist` is larger than a certain threshold t or z reaches a maximum value (255). If z reaches 255 it means that we can see the sky through that pixel (light blue color).
 
 Otherwise we hit a wall and the pixel is colored with a grayscale tone proportional to z.
 
