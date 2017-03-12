@@ -3,7 +3,7 @@
 
 jmp 0x0000:boot ; cs = 0x0000
 
-;initialize segment registeirs
+;initialize segment registers
 
 boot:
 xor ax, ax
