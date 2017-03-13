@@ -73,7 +73,7 @@ out dx, al
 inc bl
 jnz sky
 
-mov byte [1fh], 16 ; set initial threshold t to 16, store at address 0000:001f
+mov byte [threshold], 16 ; set initial threshold t to 16, store at address 0000:001f
 
 restart:
 xor ax, ax
@@ -101,7 +101,7 @@ sub ax, bp    ; subtract y coordinate from 100
 imul ax, cx   ; compute m = y_dist*z
 mov bl, cl    ; save z
 shr bl, 2     ; divide z by 4, namely scale z to [0, 63] range
-cmp ah, [1fh] ; compare m>>8 (namely ah) to t. We only look at most signficant 8 bits of m
+cmp ah, [threshold] ; compare m>>8 (namely ah) to t. We only look at most signficant 8 bits of m
 jge display   ; if m>>8 is larger than or equal to t jmp to pixel display
 cmp dx, 160   ; cmp x with center x coordinate 160 
 jge right_half        ; jmp to right if larger then or equal (the pixel is in the right half of the screen)
@@ -115,7 +115,7 @@ mul:
 imul ax, cx   ; compute m = x_dist*y
 mov bl, cl    ; save z   
 shr bl, 2     ; divide z by 4, namely scale z to [0, 63] range
-mov bh, [1fh] 
+mov bh, [threshold] 
 add bh, 16    
 cmp ah, bh    ; compare m>>8 (namely ah) to t+16 (we add 16 to the threshold to make vertical walls look shorter). We only look at most signficant 8 bits of m
 jge display   ; if m>>8 is larger than or equal to t jmp to pixel display
@@ -149,17 +149,17 @@ je down
 jmp restart
 
 up:
-mov ah, [1fh] ; increase stored threshold
+mov ah, [threshold] ; increase stored threshold
 cmp ah, 96    ; if threshold equal to a maxium value don't increase
 je restart    ; jmp to restart to redraw frame
-add byte [1fh], 1 ; else increase threshold
+add byte [threshold], 1 ; else increase threshold
 jmp restart   ; jmp to restart to redraw frame 
 down:         ;
-mov ah, [1fh] ; if threshold equal to minimum value don't decrease
+mov ah, [threshold] ; if threshold equal to minimum value don't decrease
 cmp ah, 1
 je restart    ; jmp to restart to redraw frame
-sub byte [1fh], 1 ; else decrease threshold
+sub byte [threshold], 1 ; else decrease threshold
 jmp restart   ; jmp to restart to redraw frame 
-
+threshold: db 0x10;
 pad_second_sector_with_zeros:
 times ((0x400) - ($ - $$)) db 0x00
