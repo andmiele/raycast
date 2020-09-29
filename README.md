@@ -1,4 +1,4 @@
-## A rudimentary bootable tunnel effect 3d raycaster in 16-bit x86 assembly (VGA 320x200).
+## A rudimentary bootable tunnel effect 3d raycaster in 16-bit x86 assembly (VGA 320x200)
 # Instructions
 You need the NASM assembler to compile it and a tool like dd to create a bootable floppy image and either QEMU or VirtualBox to run it:
 
