@@ -1,6 +1,6 @@
-## A rudimentary bootable tunnel effect 3d raycaster in 16-bit x86 assembly (VGA 320x200)
+## A bootable rudimentary tunnel-effect 3d raycaster in 16-bit x86 assembly (VGA 320x200)
 # Instructions
-You need the NASM assembler to compile it and a tool like dd to create a bootable floppy image and either QEMU or VirtualBox to run it:
+You need the NASM assembler to compile it, a tool like dd to create a bootable floppy image and either QEMU or VirtualBox to run it:
 
 1. ./nasm -bin raycast.m -o raycast
 2. ./dd conv=notrunc bs=4096 count=1 if=raycast of=raycast.img
@@ -31,9 +31,9 @@ For each pixel we increase z (starting from 1) until `z*xdist` or `z*ydist` is l
 
 Otherwise we hit a wall and the pixel is colored with a grayscale tone proportional to z.
 
-The idea is that at the end of the tunnel we have the bright blue sky and the closer the wall sides are to the end the brighter we see them as they get more light from the outside.
+The idea is that at the end of the tunnel we have the bright blue sky and the closer the wall sides are to the end the brighter we see them as they get more light from the sky.
 
-For each pixel we are essentially casting a ray from the camera (by increasing z) going through the pixel until it reaches a wall or reaches maximum distance without touching one.  But we do this by simply increasing the xdist along the x axis  (`z*xdist`) and the ydist along the y axis (`z*ydist`) as z increases. The further away from the center we move along the x or y axis the closer we get to a wall (if the distance is larger than the threshold we have hit a wall).The further away we look from the center (the larger xdist and ydist) the smaller z is needed to make `xdist*z` and `ydist*z` exceed the threshold (a wall is hit).
+For each pixel we are essentially casting a ray from the camera (by increasing z) that goes through the pixel until it reaches a wall or reaches the maximum distance without touching one.  We do this by simply increasing the xdist along the x axis  (`z*xdist`) and the ydist along the y axis (`z*ydist`) as z increases. The further away from the center we move along the x or y axis the closer we get to a wall (if the distance is larger than the threshold we have hit a wall). The further away we look from the center (the larger xdist and ydist) the smaller z is needed to make `xdist*z` and `ydist*z` exceed the threshold (a wall is hit).
 
-The closer to the center we look (the smaller xdist and ydist) the larger z is needed to make `xdist*z` and `ydist*z` exceed the threshold and it might happen that z reaches its maximum before that happening (in which case we see the sky at the end of the tunnel).
+The closer to the center we look (the smaller xdist and ydist) the larger z is needed to make `xdist*z` and `ydist*z` exceed the threshold and z might reache its maximum before that happening (in which case we see the sky at the end of the tunnel).
 We use keyboard up and down arrows to move along the tunnel (by increasing or decreasing the threshold t).
